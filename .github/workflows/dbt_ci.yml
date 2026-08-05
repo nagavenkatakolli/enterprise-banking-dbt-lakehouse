@@ -24,6 +24,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install dbt-core dbt-postgres
 
-      - name: Verify dbt Syntax
+      - name: Create Mock Profiles & Validate Syntax
         run: |
+          mkdir -p ~/.dbt
+          echo "banking_dbt_lakehouse:
+            target: dev
+            outputs:
+              dev:
+                type: postgres
+                host: localhost
+                user: mock_user
+                password: mock_password
+                port: 5432
+                dbname: mock_db
+                schema: analytics" > ~/.dbt/profiles.yml
           dbt parse
