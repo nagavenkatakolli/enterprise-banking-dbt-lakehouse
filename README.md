@@ -8,15 +8,22 @@ Built with **dbt Core (1.12)** and **PostgreSQL**, this repository demonstrates 
 
 ## Architecture & Data Lineage
 
-The pipeline follows the Medallion Architecture pattern to ensure strict separation between raw ingestion, dimensional modeling, and business aggregation:
+The pipeline follows the Medallion Architecture pattern (Bronze → Silver → Gold) to ensure strict separation between raw operational data, dimensional modeling, and business aggregations:
 
-[ Raw Postgres ] ──► [ Staging (Bronze) ] ──► [ Core Marts (Silver) ] ──► [ Analytics (Gold) ]
-│                           │
-analytics.customers ──► stg_customers ──► snapshot_customers ──► dim_customers ──┤
-analytics.accounts  ──► stg_accounts  ─────────────────────────► dim_accounts  ──┼──► mart_customer_360
-analytics.cards     ──► stg_cards     ─────────────────────────► dim_cards     ──┤
-analytics.txns      ──► stg_transactions ──────────────────────► fct_transactions  ┤
-analytics.card_txns ──► stg_card_transactions ─────────────────► fct_card_txns ──┘
+```text
+=================================================================================================================
+[ RAW POSTGRES ]             [ STAGING (BRONZE) ]             [ CORE MARTS (SILVER) ]         [ ANALYTICS (GOLD) ]
+=================================================================================================================
+
+analytics.customers  ───►  stg_customers  ───►  snapshot_customers  ───►  dim_customers  ─────┐
+                                                                                              │
+analytics.accounts   ───►  stg_accounts   ─────────────────────────────►  dim_accounts   ─────┼──► mart_customer_360
+                                                                                              │
+analytics.cards      ───►  stg_cards      ─────────────────────────────►  dim_cards      ─────┤
+                                                                                              │
+analytics.txns       ───►  stg_transactions ───────────────────────────►  fct_transactions ──┤
+                                                                                              │
+analytics.card_txns  ───►  stg_card_transactions ──────────────────────►  fct_card_txns  ─────┘
 
 
 ---
