@@ -1,0 +1,128 @@
+version: 2
+
+sources:
+  - name: analytics
+    schema: analytics
+    database: firstproject
+    description: "Raw relational banking dataset imported from Kaggle into the Postgres analytics schema."
+
+    tables:
+      - name: customers
+        description: "Customer demographic, contact, and registration metadata."
+        columns:
+          - name: customer_id
+            description: "Primary key for customers."
+            tests:
+              - unique
+              - not_null
+
+      - name: accounts
+        description: "Deposit accounts linked to individual customers and branches."
+        columns:
+          - name: account_id
+            description: "Primary key for accounts."
+            tests:
+              - not_null
+          - name: customer_id
+            description: "Foreign key referencing customers."
+            tests:
+              - not_null
+
+      - name: transactions
+        description: "Core banking ledger transactions (deposits, withdrawals, transfers)."
+        columns:
+          - name: transaction_id
+            description: "Primary key for bank transactions."
+            tests:
+              - unique
+              - not_null
+          - name: account_id
+            description: "Foreign key referencing accounts."
+            tests:
+              - not_null
+
+      - name: cards
+        description: "Credit and debit cards issued to customer accounts."
+        columns:
+          - name: card_id
+            description: "Primary key for payment cards."
+            tests:
+              - unique
+              - not_null
+          - name: account_id
+            description: "Foreign key referencing accounts."
+            tests:
+              - not_null
+
+      - name: card_transactions
+        description: "Merchant-level transactions performed using credit or debit cards."
+        columns:
+          - name: card_txn_id
+            description: "Primary key for card transactions."
+            tests:
+              - unique
+              - not_null
+          - name: card_id
+            description: "Foreign key referencing cards."
+            tests:
+              - not_null
+
+      - name: loans
+        description: "Loan account details including principal amounts, interest rates, and status."
+        columns:
+          - name: loan_id
+            description: "Primary key for loans."
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: "Foreign key referencing customers."
+            tests:
+              - not_null
+
+      - name: loan_payments
+        description: "Individual payment installment records against issued loans."
+        columns:
+          - name: payment_id
+            description: "Primary key for loan payments."
+            tests:
+              - unique
+              - not_null
+          - name: loan_id
+            description: "Foreign key referencing loans."
+            tests:
+              - not_null
+
+      - name: branches
+        description: "Physical retail bank branch office locations and metadata."
+        columns:
+          - name: branch_id
+            description: "Primary key for bank branches."
+            tests:
+              - not_null
+
+      - name: employees
+        description: "Bank staff members assigned to specific branches."
+        columns:
+          - name: employee_id
+            description: "Primary key for employees."
+            tests:
+              - unique
+              - not_null
+          - name: branch_id
+            description: "Foreign key referencing branches."
+            tests:
+              - not_null
+
+      - name: support_tickets
+        description: "Customer service inquiry tickets logged by account holders."
+        columns:
+          - name: ticket_id
+            description: "Primary key for support tickets."
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: "Foreign key referencing customers."
+            tests:
+              - not_null

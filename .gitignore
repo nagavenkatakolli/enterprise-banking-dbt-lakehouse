@@ -1,0 +1,25 @@
+# dbt artifacts & targets
+target/
+dbt_packages/
+logs/
+
+# Profiles & Secrets
+profiles.yml
+
+# Python Virtual Environments
+dbt-env/
+venv/
+.venv/
+*.pyc
+
+# OS & Editor files
+.DS_Store
+.vscode/
+.idea/
+target/
+dbt_packages/
+logs/
+.env
+raw_data/
+raw_data/
+raw_data/

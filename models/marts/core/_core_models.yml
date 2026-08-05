@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Active customer records filtered from SCD Type 2 snapshot."
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_accounts
+    description: "Account details enriched with branch metadata."
+    columns:
+      - name: account_id
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_transactions
+    description: "High-volume bank account transactions incremental fact table."
+    columns:
+      - name: transaction_id
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_card_transactions
+    description: "Merchant card transactions incremental fact table."
+    columns:
+      - name: card_transaction_id
+        tests:
+          - unique
+          - not_null
