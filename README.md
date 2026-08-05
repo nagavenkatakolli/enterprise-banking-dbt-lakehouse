@@ -10,7 +10,10 @@ Built with **dbt Core (1.12)** and **PostgreSQL**, this repository demonstrates 
 
 The pipeline follows the Medallion Architecture pattern (Bronze → Silver → Gold) to ensure strict separation between raw operational data, dimensional modeling, and business aggregations:
 
-```text
+
+![dbt DAG Lineage Graph](docs/dag.png)
+
+
 =================================================================================================================
 [ RAW POSTGRES ]             [ STAGING (BRONZE) ]             [ CORE MARTS (SILVER) ]         [ ANALYTICS (GOLD) ]
 =================================================================================================================
@@ -86,3 +89,8 @@ dbt test
 # 4. Generate and Serve Interactive Lineage Documentation
 dbt docs generate
 dbt docs serve
+
+## CI/CD & Deployment Architecture
+
+* **Local Data Lakehouse:** Local PostgreSQL instance acting as the execution engine for development (`dbt run`, `dbt snapshot`, `dbt test`).
+* **Automated CI Pipeline:** GitHub Actions workflow executing `dbt parse` on every push/PR to validate project DAG structure, Jinja compilation, and schema syntax without requiring downstream warehouse credentials.
