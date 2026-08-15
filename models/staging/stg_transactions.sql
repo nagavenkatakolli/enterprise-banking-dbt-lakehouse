@@ -10,7 +10,8 @@ renamed AS (
         LOWER(TRIM(txn_type)) AS transaction_type,
         CAST(amount AS NUMERIC(18, 2)) AS transaction_amount,
         LOWER(TRIM(channel)) AS transaction_channel,
-        LOWER(TRIM(merchant_category)) AS merchant_category
+        LOWER(TRIM(merchant_category)) AS merchant_category,
+        CAST(reversal_of_txn_id AS INT) AS reversal_of_txn_id
 
     FROM source
 )

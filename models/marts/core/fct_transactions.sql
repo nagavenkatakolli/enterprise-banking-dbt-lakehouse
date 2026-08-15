@@ -18,6 +18,7 @@ SELECT
     transaction_amount,
     transaction_channel,
     merchant_category,
+    reversal_of_txn_id,
     CAST(transaction_timestamp AS DATE) AS transaction_date
 FROM stg_txns
 
